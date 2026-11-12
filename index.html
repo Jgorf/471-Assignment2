@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment 2</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <h1>Assignment 2</h1>
 
     <main id="container">
         <section class="plot">
-            <h2>Plot 1</h2>
-            <svg role="img" aria-label="Empty plot area for Plot 1"></svg>
+            <h2>Average Tertiary Enrollment Rates Across 25 Countries (2016-2019)</h2>
+            <p>Values represent unweighted averages of gross tertiary enrollment rates across the same 25 countries each year.</p>
+            <div id="visWhite"></div>
+
         </section>
 
         <section class="plot">
             <h2>Plot 2</h2>
-            <svg role="img" aria-label="Empty plot area for Plot 2"></svg>
+            <div id="visBlack"></div>
+
         </section>
     </main>
+    <div id="tooltip"></div>
+    The graphs represent data from the <a
+        href="https://github.com/light-and-salt/World-Bank-Data-by-Indicators/tree/master/gender">World Bank.</a>
+    <!-- Load D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/script.js"></script>
+
 </body>
+
 </html>
