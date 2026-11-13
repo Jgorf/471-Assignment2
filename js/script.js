@@ -43,6 +43,13 @@ const svgLine = d3.select('#visWhite')
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
+const svgBlack = d3.select('#visBlack')
+    .append('svg')
+    .attr('width', chartWidth)
+    .attr('height', chartHeight + 20)
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
+
 function init() {
     d3.csv('data/gender.csv', (d) => {
         return {
@@ -73,6 +80,7 @@ function init() {
                 .text('Average Gross Tertiary Enrollment Rate (%)');
 
             updateVisLine();
+            updateBlackVis();
         })
         .catch(error => console.error('Error loading data:', error));
 }
@@ -210,6 +218,144 @@ function updateVisLine() {
     ];
 
     legendData.forEach((d, i) => {
+        legend.append('line')
+            .attr('x1', 0)
+            .attr('x2', 25)
+            .attr('y1', i * 25)
+            .attr('y2', i * 25)
+            .style('stroke', d.color)
+            .style('stroke-width', 3);
+
+        legend.append('text')
+            .attr('x', 35)
+            .attr('y', i * 25 + 4)
+            .text(d.name);
+    });
+}
+
+function updateBlackVis() {
+    const years = d3.range(2016, 2020);
+    const countedData = years.map(year => {
+        const yearData = allData.filter(d => d.year === year);
+        const femaleValues = yearData.map(d => d.female).filter(Number.isFinite);
+        const maleValues = yearData.map(d => d.male).filter(Number.isFinite);
+
+        return {
+            year,
+            female: d3.mean(femaleValues),
+            male: d3.mean(maleValues)
+        };
+    });
+
+    const xScale = d3.scaleLinear()
+        .domain([2016, 2019])
+        .range([0, width]);
+
+    const yScale = d3.scaleLinear()
+        .domain([35, 55])
+        .range([height, 0]);
+
+    const femaleLine = d3.line()
+        .x(d => xScale(d.year))
+        .y(d => yScale(d.female));
+
+    const maleLine = d3.line()
+        .x(d => xScale(d.year))
+        .y(d => yScale(d.male));
+
+    svgBlack.append('g')
+        .attr('class', 'grid')
+        .call(
+            d3.axisLeft(yScale)
+                .tickValues([35, 40, 45, 50, 55])
+                .tickSize(-width)
+                .tickFormat('')
+        )
+        .selectAll('line')
+        .style('stroke', 'lightgrey')
+        .style('stroke-width', 1);
+
+    svgBlack.select('.grid path')
+        .style('stroke', 'none');
+
+    [
+        { gender: 'female', color: '#fe89bd', line: femaleLine },
+        { gender: 'male', color: '#90c5f1', line: maleLine }
+    ].forEach(series => {
+        svgBlack.append('path')
+            .datum(countedData)
+            .attr('class', 'linemade')
+            .attr('d', series.line)
+            .attr('fill', 'none')
+            .style('stroke', series.color)
+            .style('stroke-width', 3);
+
+        svgBlack.selectAll(`.black-point-${series.gender}`)
+            .data(countedData)
+            .enter()
+            .append('circle')
+            .attr('class', `point black-point-${series.gender}`)
+            .attr('cx', d => xScale(d.year))
+            .attr('cy', d => yScale(d[series.gender]))
+            .attr('r', 5)
+            .attr('fill', series.color)
+            .on('mouseover', function (event, d) {
+                d3.select(this).attr('r', 7);
+                d3.select('#tooltip')
+                    .style('display', 'block')
+                    .html(`
+                        <strong>${d.year}</strong><br>
+                        Gender: ${series.gender === 'female' ? 'Female' : 'Male'}<br>
+                        Average enrollment rate: ${d[series.gender].toFixed(2)}%<br>
+                    `);
+            })
+            .on('mousemove', function (event) {
+                d3.select('#tooltip')
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY + 10) + 'px');
+            })
+            .on('mouseout', function () {
+                d3.select(this).attr('r', 5);
+                d3.select('#tooltip').style('display', 'none');
+            });
+    });
+
+    svgBlack.append('g')
+        .attr('class', 'axis')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(xScale)
+            .tickValues(years)
+            .tickFormat(d3.format('d')));
+
+    svgBlack.append('g')
+        .attr('class', 'axis')
+        .call(d3.axisLeft(yScale)
+            .tickValues([35, 40, 45, 50, 55])
+            .tickFormat(d => d + '%'));
+
+    svgBlack.append('text')
+        .attr('class', 'axis-label')
+        .attr('x', width / 2)
+        .attr('y', height + margin.bottom - 10)
+        .style('text-anchor', 'middle')
+        .text('Year');
+
+    svgBlack.append('text')
+        .attr('class', 'axis-label')
+        .attr('transform', 'rotate(-90)')
+        .attr('x', -height / 2)
+        .attr('y', -60)
+        .style('text-anchor', 'middle')
+        .text('Average Gross Tertiary Enrollment Rate (%)');
+
+    const legend = svgBlack.append('g')
+        .attr('class', 'legend')
+        .attr('transform', `translate(${width + 30},10)`);
+
+    [
+        { name: 'Female', color: '#fe89bd' },
+        { name: 'Male', color: '#90c5f1' }
+    ].forEach((d, i) => {
         legend.append('line')
             .attr('x1', 0)
             .attr('x2', 25)
