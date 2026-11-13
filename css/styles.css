@@ -15,23 +15,37 @@ h1 {
 }
 
 #container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(4, auto);
     width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
     gap: 10px;
 }
 
 .plot {
-    flex: 1;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: 1 / span 4;
     min-width: 0;
+}
+
+.plot:first-child {
+    grid-column: 1;
+}
+
+.plot:nth-child(2) {
+    grid-column: 2;
 }
 
 .plot h2 {
     text-align: center;
     font-size: 18px;
     padding-top: 0.5rem;
+    margin: 0.35rem 0 0.25rem;
+}
+
+.plot > p {
+    margin: 0 0 0.35rem;
 }
 
 .plot svg {
@@ -44,10 +58,14 @@ h1 {
 
 @media (max-width: 700px) {
     #container {
-        flex-direction: column;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto;
     }
 
     .plot {
+        grid-column: 1;
+        grid-row: auto;
+        grid-template-rows: auto;
         width: 100%;
     }
 }
@@ -67,4 +85,53 @@ p {
     font-size: 13px;
     text-align: center;
     padding-top: 0px;
+}
+
+.overview {
+    margin: 1.5rem auto;
+}
+
+.overview h2 {
+    text-align: center;
+    font-size: 18px;
+}
+
+.overview p {
+    margin: 0 0 1rem;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.white-hat-writeup,
+.black-hat-writeup {
+    margin: 1.5rem 0;
+    padding: 1rem 1.1rem;
+    background: #fafbfc;
+    border: 1px solid #e5e8ec;
+    border-radius: 4px;
+}
+
+.white-hat-writeup p,
+.black-hat-writeup p {
+    max-width: 72ch;
+    margin: 0 0 0.9rem;
+    font-size: 14px;
+    line-height: 1.65;
+    text-align: left;
+}
+
+.white-hat-writeup h3,
+.black-hat-writeup h3 {
+    margin: 0 0 0.8rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid #e5e8ec;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.white-hat-writeup p:last-child,
+.black-hat-writeup p:last-child {
+    margin-bottom: 0;
 }

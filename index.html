@@ -16,19 +16,82 @@
             <h2>Average Tertiary Enrollment Rates Across 25 Countries (2016-2019)</h2>
             <p>Values represent unweighted averages of gross tertiary enrollment rates across the same 25 countries each year.</p>
             <div id="visWhite"></div>
+            <div class="white-hat-writeup">
+                <h3>White Hat Visualization Write-up</h3>
+                <p>The dataset represents countries and their measured enrollment rates, fertility rates, education
+                    levels, and other indicators used to study gender equality. We focused on gross tertiary
+                    enrollment rates for females and males from 2016 to 2019. We aggregated the data by calculating
+                    the average rate for both genders across the same 25 countries for each year. We chose these years
+                    and countries because some country-year observations were missing. Using the same countries each
+                    year keeps the comparison consistent. Our results show that average tertiary enrollment rates
+                    increased for both females and males from 2016 to 2019.</p>
 
+                <p>We used a line chart with year on the x-axis and average gross tertiary enrollment rate, as a
+                    percentage, on the y-axis. A line chart makes changes over time easy to see. We started the y-axis
+                    at zero so the differences between values are not exaggerated. The two lines make it easy to
+                    compare trends for females and males: both increase, while the female average is higher. We used
+                    pink for females and blue for males, and added a legend with matching line colors. Faint gray
+                    horizontal gridlines help estimate values without overcrowding the chart. Circles mark each
+                    yearly average, and hovering over a circle displays the year, gender, and exact average rate in a
+                    tooltip.</p>
+
+                <p>We titled the graph "Average Tertiary Enrollment Rates Across 25 Countries (2016-2019)" and added
+                    a description explaining that the values are unweighted averages across the same 25 countries
+                    each year. Because the chart includes only 25 countries, the results do not necessarily represent
+                    worldwide tertiary enrollment rates. Consistent data selection, labeled axes, a zero-based scale,
+                    and a legend help viewers understand the trends and compare enrollment rates without exaggerating
+                    the differences.</p>
+            </div>
         </section>
 
         <section class="plot">
             <h2>Enrollment Rates Fall in Every Country in 2019</h2>
             <p>Female and male enrollment both declined across all countries after years of growth.</p>
             <div id="visBlack"></div>
+            <div class="black-hat-writeup">
+                <h3>Black Hat Visualization Write-up</h3>
+                <p>In creating the Black Hat visualization, we used the same dataset and general chart setup as our
+                    White Hat visualization. This focused on female and male gross tertiary enrollment rates from
+                    2016-2019. However, we did not limit the data to the same 25 countries every year. Instead, we used
+                    all available country data for each year. We also calculated the female and male averages
+                    separately using all non-missing values. This results in the countries included in the averages
+                    changing between years, which makes the comparisons less consistent and potentially creates
+                    misleading trends.</p>
 
+                <p>For the visualization, we maintained the same line chart format, colors, markers, and tooltips as
+                    our White Hat visualization. However, we intentionally changed the y-axis to start at 35% instead
+                    of zero. This caused exaggerated visual differences between the years, resulting in the decline
+                    from 2018 to 2019 appearing much more significant than it actually is.</p>
+
+                <p>We titled the graph, "Enrollment Rates Fall in Every Country in 2019" to make the reader believe
+                    that enrollment rates declined across all countries. However, the graph only displays average
+                    enrollment rates and does not show individual country results. The title therefore makes a claim
+                    that the visualization cannot support.</p>
+
+                <p>By intentionally using altered country selections, a truncated y-axis, and a misleading title, we
+                    are seeking to influence how the reader interprets the data. These choices demonstrate how data
+                    transformations, visual encodings, and titles can distort the message of a visualization,
+                    potentially misleading the reader.</p>
+            </div>
         </section>
     </main>
     <div id="tooltip"></div>
+    <section class="overview">
+        <h2>Overview Development</h2>
+        <p>We first brainstormed on our own for this assignment and then brainstormed together. We talked through
+            different ideas of what to represent and came up with two specific graphs to show. We also talked through
+            the design for each so we were both on the same page. Ashley worked on creating the White Hat graph, and
+            Jeremy worked on the Black Hat graph. Then, we both worked on the write-ups for our graphs. Ashley wrote
+            the overview of the development process, and Jeremy filmed the demo video, deployed the website and submitted.</p>
+
+        <p>We each brainstormed on our own for 30 minutes, spent an hour brainstorming and planning the graphs
+            together, and each spent about an hour and a half creating our graphs. We each spent about an hour writing
+            the write-ups for the graphs we made. In total, this project took us about 3.5 hours.</p>
+    </section>
     <p class="data-source">The graphs represent data from the <a
-        href="https://github.com/light-and-salt/World-Bank-Data-by-Indicators/tree/master/gender">World Bank.</a></p>
+        href="https://github.com/light-and-salt/World-Bank-Data-by-Indicators/tree/master/gender">World Bank.</a>
+        <span class="disclosure-divider"> | </span><strong>AI disclosure:</strong> We used AI to assist with the development of the visualizations and for
+        transforming the data.</p>
     <!-- Load D3.js -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="js/script.js"></script>
